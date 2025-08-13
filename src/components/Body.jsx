@@ -13,6 +13,12 @@ const Body = () => {
   const userData = useSelector((store) => store.user)
 
   const fetchUser = async () => {
+    // log statements
+    console.log("fetchUser called");
+    console.log("BASE_URL in prod:", BASE_URL);
+    console.log("userData at fetch start:", userData);
+
+
     if(userData && Object.keys(userData).length > 0) return;
     try{
       const res = await axios.get(BASE_URL + "/profile/view", {
@@ -31,8 +37,11 @@ const Body = () => {
   }
 
   useEffect(() => {
-      fetchUser()
-  }, [userData]);
+    if (!userData || Object.keys(userData).length === 0) {
+      fetchUser();
+    }
+  }, []);
+
 
   return (
     <div>
